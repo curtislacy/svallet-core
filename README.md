@@ -8,3 +8,17 @@ The svallet is an entirely new kind of wallet. Rather than maintaining all of yo
 This repository contains the "core" of svallet - all the stuff on the client and server sides that queries and processes data from other sources.
 
 Like this? Help me keep it going! 1Lhx85xtTjDTXHgXPVCBnBeJotG4kU5eK3
+
+Usage
+==========
+Installing the server-side endpoints is very simple.  Include ``svallet-core`` in your 	``package.json``, and then add this to your express setup:
+```js
+var svallet_core = require( 'svallet-core' );
+
+var app = express();
+app.configure(function () {
+	// Do your configuration and such in here; you've probably already got it.
+} );
+
+svallet_core.attach( app );
+```

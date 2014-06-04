@@ -1,0 +1,25 @@
+{
+  "name": "svallet-core",
+  "version": "0.0.1",
+  "description": "Lighweight, consensus-based webwallet",
+  "main": "express-endpoints.js",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/curtislacy/svallet-core.git"
+  },
+  "keywords": [
+    "mastercoin",
+    "bitcoin",
+    "counterparty"
+  ],
+  "author": "Curtis Lacy",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "cheerio": "~0.15.0",
+    "request": "~2.34.0"
+  }
+}
