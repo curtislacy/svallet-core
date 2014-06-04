@@ -11,14 +11,25 @@ Like this? Help me keep it going! 1Lhx85xtTjDTXHgXPVCBnBeJotG4kU5eK3
 
 Usage
 ==========
-Installing the server-side endpoints is very simple.  Include ``svallet-core`` in your 	``package.json``, and then add this to your express setup:
-```js
-var svallet_core = require( 'svallet-core' );
+Installing the client code and server-side endpoints is very simple.  
 
-var app = express();
-app.configure(function () {
-	// Do your configuration and such in here; you've probably already got it.
-} );
+1. Include ``svallet-core`` in your 	``package.json``.
+2. Add this to your express setup:
+    ```js
+    var svallet_core = require( 'svallet-core' );
+    
+    var app = express();
+    app.configure(function () {
+	    // Do your configuration and such in here; you've probably already got a bunch of stuff.
+    
+	    // Add this at the end, so you can get the svallet client library.
+	    app.use(express.static( __dirname + '/node_modules/svallet-core/public' ));
+    } );
+    
+    svallet_core.attach( app );
+    ```
 
-svallet_core.attach( app );
-```
+3. Include the library file in any of your HTML files:
+    ```html
+        <script src="/js/svallet-core.js"></script>
+    ```
