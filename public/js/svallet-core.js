@@ -605,7 +605,7 @@ ValueQueryWorker.prototype.getValues = function() {
 				var totalValue = 0;
 				for( var i = 0; i<response.length; i++ )
 				{
-					if( response[i].market == 'btc_msc' )
+					if( response[i].market == 'msc_btc' )
 					{
 						totalCoins += parseFloat( response[i].amount );
 						totalValue += parseFloat( response[i].amount * response[i].price );
@@ -674,7 +674,7 @@ ValueQueryWorker.prototype.getValues = function() {
 				var totalValue = 0;
 				for( var i = 0; i<response.length; i++ )
 				{
-					if( response[i].market == 'btc_maid' )
+					if( response[i].market == 'maid_btc' )
 					{
 						totalCoins += parseFloat( response[i].amount );
 						totalValue += parseFloat( response[i].amount * response[i].price );
