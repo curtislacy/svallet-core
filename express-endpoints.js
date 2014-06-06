@@ -64,7 +64,7 @@ module.exports.attach = function( app ) {
 				}
 				else
 				{
-					res.send( { 'valid': true, 'data': response } );
+					res.json( { 'valid': true, 'data': response } );
 				}
 			}
 		);
