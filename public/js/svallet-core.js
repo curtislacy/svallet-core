@@ -296,14 +296,14 @@ BalanceQueryWorker.prototype.getBalances = function() {
 							{
 								self.facilitator.nominateValue( 
 									'balance-bitcoin', self.balanceSetter,
-									'https://masterchest.info/',
+									'https://masterchain.info/',
 									parseFloat( item.value ));
 							}
 							else
 							{
 								self.facilitator.nominateValue( 
 									'balance-' + item.symbol, self.balanceSetter,
-									'https://masterchest.info/',
+									'https://masterchain.info/',
 									parseFloat( item.value ));
 							}
 						}
