@@ -1,4 +1,31 @@
 /****
+ *   A "Multiple Address Svallet" - basically a wrapper which creates a 
+ *   SingleAddressSvallet for each address added, which then funnels all 
+ *   the events out.
+ ****/
+function MultiAddressSvallet() {
+	this.svallets = {};
+}
+MultiAddressSvallet.prototype.add = function( address ) {
+	var newSvallet = new SingleAddressSvallet();
+
+	newSvallet.svalletData.addressData.set( { 'address': address });
+	newSvallet.balanceChangeListener = ( function( data ) {
+		console.log( 'Balance Change for address: ' + this.svalletData.addressData.get( 'address' ) );
+		console.log( data );
+	} ).bind( newSvallet );
+	newSvallet.svalletData.balances.on( 'change', newSvallet.balanceChangeListener );
+
+	newSvallet.valueChangeListener = ( function( data ) {
+		console.log( 'Value Change for address: ' + this.svalletData.addressData.get( 'address' ) );
+		console.log( data );
+	} ).bind( newSvallet );
+	newSvallet.svalletData.values.on( 'change', newSvallet.valueChangeListener );
+
+	this.svallets[ address ] = newSvallet;
+}
+
+/****
  *   A "Single Address Svallet" - all the data querying and such for a single address.
  ****/
 function SingleAddressSvallet() {
