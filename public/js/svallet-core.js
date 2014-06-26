@@ -5,8 +5,10 @@
  ****/
 function MultiAddressSvallet() {
 	this.svallets = {};
+	_.extend( this, Backbone.Events );
 }
 MultiAddressSvallet.prototype.add = function( address ) {
+	var multiSvallet = this;
 	var newSvallet = new SingleAddressSvallet();
 
 	newSvallet.svalletData.addressData.set( { 'address': address });
@@ -14,8 +16,15 @@ MultiAddressSvallet.prototype.add = function( address ) {
 		for( var k in data.changed )
 		{
 			if( data.changed.hasOwnProperty( k ))
-				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
-							 'balance ' + k + ' ' + data.changed[ k ] );
+			{
+				multiSvallet.trigger( 'change:balance',
+					{
+						address: this.svalletData.addressData.get( 'address' ),
+						attribute: k,
+						newValue: data.changed[k]
+					}
+				);
+			}
 		}
 	} ).bind( newSvallet );
 	newSvallet.svalletData.balances.on( 'change', newSvallet.balanceChangeListener );
@@ -24,8 +33,13 @@ MultiAddressSvallet.prototype.add = function( address ) {
 		for( var k in data.changed )
 		{
 			if( data.changed.hasOwnProperty( k ))
-				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
-							 'value ' + k + ' ' + data.changed[ k ] );
+				multiSvallet.trigger( 'change:value',
+					{
+						address: this.svalletData.addressData.get( 'address' ),
+						attribute: k,
+						newValue: data.changed[k]
+					}
+				);
 		}
 	} ).bind( newSvallet );
 	newSvallet.svalletData.values.on( 'change', newSvallet.valueChangeListener );
@@ -34,8 +48,13 @@ MultiAddressSvallet.prototype.add = function( address ) {
 		for( var k in data.changed )
 		{
 			if( data.changed.hasOwnProperty( k ))
-				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
-							 'coinData ' + k + ' ' + data.changed[ k ] );
+				multiSvallet.trigger( 'change:description',
+					{
+						address: this.svalletData.addressData.get( 'address' ),
+						attribute: k,
+						newValue: data.changed[k]
+					}
+				);
 		}
 	}).bind( newSvallet );
 	newSvallet.svalletData.coinData.on( 'change', newSvallet.coinDataChangeListener );
@@ -43,9 +62,13 @@ MultiAddressSvallet.prototype.add = function( address ) {
 	newSvallet.coinIconChangeListener = ( function( data ) {
 		for( var k in data.changed )
 		{
-			if( data.changed.hasOwnProperty( k ))
-				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
-							 'coinIcon ' + k + ' ' + data.changed[ k ] );
+				multiSvallet.trigger( 'change:icon',
+					{
+						address: this.svalletData.addressData.get( 'address' ),
+						attribute: k,
+						newValue: data.changed[k]
+					}
+				);
 		}
 	}).bind( newSvallet );
 	newSvallet.svalletData.coinIcons.on( 'change', newSvallet.coinIconChangeListener );
@@ -54,8 +77,13 @@ MultiAddressSvallet.prototype.add = function( address ) {
 		for( var k in data.changed )
 		{
 			if( data.changed.hasOwnProperty( k ))
-				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
-							 'networkStatus ' + k + ' ' + data.changed[ k ] );
+				multiSvallet.trigger( 'change:network',
+					{
+						address: this.svalletData.addressData.get( 'address' ),
+						attribute: k,
+						newValue: data.changed[k]
+					}
+				);
 		}
 	}).bind( newSvallet );
 	newSvallet.svalletData.networkStatus.on( 'change', newSvallet.networkStatusChangeListener );
