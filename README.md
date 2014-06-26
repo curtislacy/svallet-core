@@ -34,6 +34,20 @@ Installing the client code and server-side endpoints is very simple.
         <script src="/js/svallet-core.js"></script>
     ```
 
+4. Then in your javascript code, you can instantiate a svallet object, attach listeners, and then add some addresses:
+    ```js
+    var svallet = new MultiAddressSvallet();
+
+    svallet.on( 'all', function( type, data ) {
+        console.log( 'Svallet change event (' + type + '):' );
+        console.log( data );
+    });
+
+    svallet.add( '1Lhx85xtTjDTXHgXPVCBnBeJotG4kU5eK3' );
+    ```
+
+5. It's that simple!  Your event listeners should almost immediately begin to spew data regarding network connections, balances, values, and other data from a variety of sources.
+
 Signing with your PGP key
 ==========
 
