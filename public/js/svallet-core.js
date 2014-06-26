@@ -11,16 +11,54 @@ MultiAddressSvallet.prototype.add = function( address ) {
 
 	newSvallet.svalletData.addressData.set( { 'address': address });
 	newSvallet.balanceChangeListener = ( function( data ) {
-		console.log( 'Balance Change for address: ' + this.svalletData.addressData.get( 'address' ) );
-		console.log( data );
+		for( var k in data.changed )
+		{
+			if( data.changed.hasOwnProperty( k ))
+				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
+							 'balance ' + k + ' ' + data.changed[ k ] );
+		}
 	} ).bind( newSvallet );
 	newSvallet.svalletData.balances.on( 'change', newSvallet.balanceChangeListener );
 
 	newSvallet.valueChangeListener = ( function( data ) {
-		console.log( 'Value Change for address: ' + this.svalletData.addressData.get( 'address' ) );
-		console.log( data );
+		for( var k in data.changed )
+		{
+			if( data.changed.hasOwnProperty( k ))
+				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
+							 'value ' + k + ' ' + data.changed[ k ] );
+		}
 	} ).bind( newSvallet );
 	newSvallet.svalletData.values.on( 'change', newSvallet.valueChangeListener );
+
+	newSvallet.coinDataChangeListener = ( function( data ) {
+		for( var k in data.changed )
+		{
+			if( data.changed.hasOwnProperty( k ))
+				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
+							 'coinData ' + k + ' ' + data.changed[ k ] );
+		}
+	}).bind( newSvallet );
+	newSvallet.svalletData.coinData.on( 'change', newSvallet.coinDataChangeListener );
+
+	newSvallet.coinIconChangeListener = ( function( data ) {
+		for( var k in data.changed )
+		{
+			if( data.changed.hasOwnProperty( k ))
+				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
+							 'coinIcon ' + k + ' ' + data.changed[ k ] );
+		}
+	}).bind( newSvallet );
+	newSvallet.svalletData.coinIcons.on( 'change', newSvallet.coinIconChangeListener );
+
+	newSvallet.networkStatusChangeListener = ( function( data ) {
+		for( var k in data.changed )
+		{
+			if( data.changed.hasOwnProperty( k ))
+				console.log( '  ' + this.svalletData.addressData.get( 'address' ) + ' ' + 
+							 'networkStatus ' + k + ' ' + data.changed[ k ] );
+		}
+	}).bind( newSvallet );
+	newSvallet.svalletData.networkStatus.on( 'change', newSvallet.networkStatusChangeListener );
 
 	this.svallets[ address ] = newSvallet;
 }
