@@ -145,7 +145,7 @@ function SingleAddressSvallet() {
 		/* Map currencyID to a favicon provided by the currency issuer. */
 	});
 	var NetworkStatus = Backbone.Model.extend( {
-		/* Map request ID (test.omniwallet.org:balance, etc.) 
+		/* Map request ID (www.omniwallet.org:balance, etc.) 
 			to one of 'OK', 'In Progress', or FAILED */
 	});
 
@@ -446,8 +446,8 @@ BalanceQueryWorker.prototype.getBalances = function() {
 
 	queriesMade++;
 	self.requestor.post( 
-		'Omni Test:balances',
-		'https://test.omniwallet.org/v1/address/addr/',
+		'Omni:balances',
+		'https://www.omniwallet.org/v1/address/addr/',
 		{ addr: originalAddress },
 		function( response ) {
 			queriesComplete++;
@@ -462,21 +462,21 @@ BalanceQueryWorker.prototype.getBalances = function() {
 						{
 							self.facilitator.nominateValue( 
 								'balance-bitcoin', self.balanceSetter,
-								'https://test.omniwallet.org/',
+								'https://www.omniwallet.org/',
 								item.value / 100000000 );
 						}
 						else if( item.symbol == 'MSC' || item.symbol == 'TMSC' )
 						{
 							self.facilitator.nominateValue( 
 								'balance-' + item.symbol, self.balanceSetter,
-								'https://test.omniwallet.org/',
+								'https://www.omniwallet.org/',
 								item.value / 100000000 );
 						}
 						else
 						{
 							self.facilitator.nominateValue( 
 								'balance-MSC-' + item.symbol, self.balanceSetter,
-								'https://test.omniwallet.org/',
+								'https://www.omniwallet.org/',
 								item.value );
 						}
 					}
@@ -917,7 +917,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 /*				if( response[0] )
 				{
 					var extractedData = {};
-					extractedData[ currency + '-source' ] = 'https://test.omniwallet.org/';
+					extractedData[ currency + '-source' ] = 'https://www.omniwallet.org/';
 					extractedData[ currency ] = {
 						"name": response[0].propertyName + ' (' + match[1] + ')',
 						"description": response[0].propertyData,
@@ -956,13 +956,13 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 		if( match )
 		{
 			self.requestor.getJSON( 
-				'Omni Test:info-' + currency,
-				'https://test.omniwallet.org/v1/property/' + match[1] + '.json',
+				'Omni:info-' + currency,
+				'https://www.omniwallet.org/v1/property/' + match[1] + '.json',
 				function( response ) {
 					if( response[0] )
 					{
 						var extractedData = {};
-						extractedData[ currency + '-source' ] = 'https://test.omniwallet.org/';
+						extractedData[ currency + '-source' ] = 'https://www.omniwallet.org/';
 						extractedData[ currency ] = {
 							"name": response[0].propertyName + ' (#' + match[1] + ')',
 							"description": response[0].propertyData,
