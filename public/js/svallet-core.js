@@ -7,6 +7,18 @@ function MultiAddressSvallet() {
 	this.svallets = {};
 	_.extend( this, Backbone.Events );
 }
+MultiAddressSvallet.prototype.getCoinData = function( currency ) {
+	for( var k in this.svallets )
+	{
+		if( this.svallets.hasOwnProperty( k ))
+		{
+			var data = this.svallets[ k ].svalletData.coinData.get( currency );
+			if( data )
+				return data;
+		}
+	}
+	return null;
+}
 MultiAddressSvallet.prototype.add = function( address ) {
 	var multiSvallet = this;
 	var newSvallet = new SingleAddressSvallet();
