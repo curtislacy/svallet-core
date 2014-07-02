@@ -19,6 +19,18 @@ MultiAddressSvallet.prototype.getCoinData = function( currency ) {
 	}
 	return null;
 }
+MultiAddressSvallet.prototype.getValue = function( currency ) {
+	for( var k in this.svallets )
+	{
+		if( this.svallets.hasOwnProperty( k ))
+		{
+			var data = this.svallets[ k ].svalletData.values.get( currency );
+			if( data )
+				return data;
+		}
+	}
+	return null;
+}
 MultiAddressSvallet.prototype.getTotalBalance = function( currency ) {
 	var sum = 0;
 	for( var k in this.svallets )
@@ -31,6 +43,22 @@ MultiAddressSvallet.prototype.getTotalBalance = function( currency ) {
 		}
 	}
 	return sum;
+}
+MultiAddressSvallet.prototype.getValuatedCurrencies = function() {
+	var currencies = [];
+	for( var k in this.svallets )
+	{
+		if( this.svallets.hasOwnProperty( k ))
+		{
+			for( var ck in this.svallets[k].svalletData.values.attributes )
+			{
+				if( ck.indexOf( '-source' ) != ck.length - 7 )
+					if( currencies.indexOf( ck ) < 0 )
+						currencies.push( ck );
+			}
+		}
+	}
+	return currencies;
 }
 MultiAddressSvallet.prototype.add = function( address ) {
 	var multiSvallet = this;
