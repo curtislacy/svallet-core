@@ -211,19 +211,37 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 {
 	var host = url.match( /https?:\/\/([a-zA-Z.]+)/ )[1];
 	var self = this;
-	this.requestor.getJSON( 
-		host + ':icon',
-		'/svallet/findfavicon', { 'url': url }, 
-		function( response ) {
-			if( response.valid )
-			{
-				var toSet = {};
-				toSet[ currency ] = response.url;
-				self.svalletData.coinIcons.set( toSet );
-			}
-			else
-				console.error( 'No favicon available for ' + url, response );
-		}, function( error ){} );
+	var match = currency.match( /^XCP-(((GO?LD)|(SLV)|(PLT)|(PLD)|(PAL)|(RHO))[A-Z]+)$/ );
+	if( match )
+	{
+		this.requestor.getJSON( 
+			'DTT:icon-' + currency,
+			'http://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
+			function( response ) {
+				if( response )
+				{
+					var toSet = {};
+					toSet[ currency ] = 'http://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
+					self.svalletData.coinIcons.set( toSet );
+				}
+			}, function( error ){} );
+	}
+	else
+	{
+		this.requestor.getJSON( 
+			host + ':icon',
+			'/svallet/findfavicon', { 'url': url }, 
+			function( response ) {
+				if( response.valid )
+				{
+					var toSet = {};
+					toSet[ currency ] = response.url;
+					self.svalletData.coinIcons.set( toSet );
+				}
+				else
+					console.error( 'No favicon available for ' + url, response );
+			}, function( error ){} );		
+	}
 }
 
 /****
@@ -889,6 +907,27 @@ ValueQueryWorker.prototype.getValues = function() {
 					self.loops[ currency ] = setTimeout( self.getValues.bind( outerThis ), 30000 );
 				});
 		}
+
+		// Check for other DTT items.
+		var dttCatalog = currency.match( /^XCP-(((GO?LD)|(SLV)|(PLT)|(PLD)|(PAL)|(RHO))[A-Z]+)$/ );
+
+		if( dttCatalog )
+		{
+			self.requestor.getJSON( 
+				'DTT:value-' + currency,
+				'http://staging.digitaltangibletrust.com/product/symbol/' + dttCatalog[1] + '/',
+				function( response ) {
+					if( response )
+					{
+						var valuesToSet = {};
+						valuesToSet[ currency ] = response.priceUSD;
+						valuesToSet[ currency + '-source' ] = 'http://digitaltangibletrust.com';
+
+						self.values.set( valuesToSet );
+						console.log( valuesToSet );
+					}
+				}, function( error ){} );
+		}
 	}
 }
 
@@ -926,6 +965,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 	var outerThis = this;
 	var self = this.self;
 	var currency = this.currency;
+	console.log( 'getCoinData!: ' + currency );
 
 	if( currency == 'bitcoin' )
 	{
@@ -1018,11 +1058,45 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 			match = currency.match( /^XCP-([A-Za-z0-9]+)$/ )
 			if( match )
 			{
-				var dataToSet = {};
-				dataToSet[ currency ] = {
-					"name": match[ 1 ]
-				};
-				self.coinData.set( dataToSet );
+				var match2 = currency.match( /^XCP-(((GO?LD)|(SLV)|(PLT)|(PLD)|(PAL)|(RHO))[A-Z]+)$/ );
+				if( match2 )
+				{
+					self.requestor.getJSON( 
+						'DTT:info-' + currency,
+						'http://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
+						function( response ) {
+							console.log( response );
+							if( response )
+							{
+								var extractedData = {};
+								extractedData[ currency + '-source' ] = 'http://digitaltangibletrust.com/';
+								extractedData[ currency ] = {
+									"name": response.name + ' (' + match2[1] + ')',
+									"description": response.description,
+									"url": 'http://staging.digitaltangibletrust.com/product/' + response.slug + '/',
+									"divisible": false
+								}
+								self.coinData.set( extractedData );
+							}
+							self.loops[ currency ] = setTimeout( self.getCoinData.bind( outerThis ), 30000 );
+						},
+						function( response ) {
+							self.loops[ currency ] = setTimeout( self.getCoinData.bind( outerThis ), 30000 );
+						}
+					);					
+				}
+				else
+				{
+					var dataToSet = {};
+					dataToSet[ currency ] = {
+						"name": match[ 1 ]
+					};
+					self.coinData.set( dataToSet );					
+				}
+			}
+			else
+			{
+
 			}
 		}		
 	}
