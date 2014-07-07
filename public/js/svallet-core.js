@@ -915,16 +915,18 @@ ValueQueryWorker.prototype.getValues = function() {
 		{
 			self.requestor.getJSON( 
 				'DTT:value-' + currency,
-				'http://staging.digitaltangibletrust.com/product/symbol/' + dttCatalog[1] + '/',
+				'http://staging.digitaltangibletrust.com/price/symbol/' + dttCatalog[1] + '/',
 				function( response ) {
 					if( response )
 					{
-						var valuesToSet = {};
-						valuesToSet[ currency ] = response.priceUSD;
-						valuesToSet[ currency + '-source' ] = 'http://digitaltangibletrust.com';
+						var prices = JSON.parse( response );
+						prices.forEach( function( price ) {
+							var valuesToSet = {};
+							valuesToSet[ currency ] = price.priceUSD;
+							valuesToSet[ currency + '-source' ] = price.productUrl;
+							self.values.set( valuesToSet );
+						});
 
-						self.values.set( valuesToSet );
-						console.log( valuesToSet );
 					}
 				}, function( error ){} );
 		}
