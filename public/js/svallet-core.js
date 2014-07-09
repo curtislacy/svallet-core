@@ -216,12 +216,12 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 	{
 		this.requestor.getJSON( 
 			'DTT:icon-' + currency,
-			'http://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
+			'https://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
 			function( response ) {
 				if( response )
 				{
 					var toSet = {};
-					toSet[ currency ] = 'http://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
+					toSet[ currency ] = 'https://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
 					self.svalletData.coinIcons.set( toSet );
 				}
 			}, function( error ){} );
@@ -915,7 +915,7 @@ ValueQueryWorker.prototype.getValues = function() {
 		{
 			self.requestor.getJSON( 
 				'DTT:value-' + currency,
-				'http://staging.digitaltangibletrust.com/price/symbol/' + dttCatalog[1] + '/',
+				'https://staging.digitaltangibletrust.com/price/symbol/' + dttCatalog[1] + '/',
 				function( response ) {
 					if( response )
 					{
@@ -1065,7 +1065,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 				{
 					self.requestor.getJSON( 
 						'DTT:info-' + currency,
-						'http://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
+						'https://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
 						function( response ) {
 							console.log( response );
 							if( response )
@@ -1075,7 +1075,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 								extractedData[ currency ] = {
 									"name": response.name + ' (' + match2[1] + ')',
 									"description": response.description,
-									"url": 'http://staging.digitaltangibletrust.com/product/' + response.slug + '/',
+									"url": 'https://staging.digitaltangibletrust.com/product/' + response.slug + '/',
 									"divisible": false
 								}
 								self.coinData.set( extractedData );
