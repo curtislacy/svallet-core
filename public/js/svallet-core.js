@@ -1073,7 +1073,6 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 								extractedData[ currency ] = {
 									"name": response.name + ' (' + match2[1] + ')',
 									"description": response.description,
-									"url": 'http://staging.digitaltangibletrust.com/product/' + response.slug + '/',
 									"divisible": false
 								}
 								self.coinData.set( extractedData );
