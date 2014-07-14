@@ -201,15 +201,13 @@ function SingleAddressSvallet() {
 			{
 				if( v.indexOf( '-source' ) != v.length -7 )
 				{
-					if( data.changed[ v ].url )
-						self.locateIcon( v, data.changed[ v ].url );
+					self.locateIcon( v, data.changed[ v ].url );
 				}
 			}
 	});
 }
 SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 {
-	var host = url.match( /https?:\/\/([a-zA-Z.]+)/ )[1];
 	var self = this;
 	var match = currency.match( /^XCP-(((GO?LD)|(SLV)|(PLT)|(PLD)|(PAL)|(RHO))[A-Z]+)$/ );
 	if( match )
@@ -218,7 +216,6 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 			'DTT:icon-' + currency,
 			'https://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
 			function( response ) {
-					console.log( response );
 				if( response )
 				{
 					var toSet = {};
@@ -229,6 +226,7 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 	}
 	else
 	{
+		var host = url.match( /https?:\/\/([a-zA-Z.]+)/ )[1];
 		this.requestor.getJSON( 
 			host + ':icon',
 			'/svallet/findfavicon', { 'url': url }, 
@@ -945,7 +943,6 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 	var outerThis = this;
 	var self = this.self;
 	var currency = this.currency;
-	console.log( 'getCoinData!: ' + currency );
 
 	if( currency == 'bitcoin' )
 	{
@@ -1045,7 +1042,6 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 						'DTT:info-' + currency,
 						'https://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
 						function( response ) {
-							console.log( response );
 							if( response )
 							{
 								var extractedData = {};
