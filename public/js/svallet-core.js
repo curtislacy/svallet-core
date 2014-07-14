@@ -216,12 +216,13 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 	{
 		this.requestor.getJSON( 
 			'DTT:icon-' + currency,
-			'http://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
+			'https://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
 			function( response ) {
+					console.log( response );
 				if( response )
 				{
 					var toSet = {};
-					toSet[ currency ] = 'http://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
+					toSet[ currency ] = 'https://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
 					self.svalletData.coinIcons.set( toSet );
 				}
 			}, function( error ){} );
@@ -907,27 +908,6 @@ ValueQueryWorker.prototype.getValues = function() {
 					self.loops[ currency ] = setTimeout( self.getValues.bind( outerThis ), 30000 );
 				});
 		}
-
-		// Check for other DTT items.
-		var dttCatalog = currency.match( /^XCP-(((GO?LD)|(SLV)|(PLT)|(PLD)|(PAL)|(RHO))[A-Z]+)$/ );
-
-		if( dttCatalog )
-		{
-			self.requestor.getJSON( 
-				'DTT:value-' + currency,
-				'http://staging.digitaltangibletrust.com/product/symbol/' + dttCatalog[1] + '/',
-				function( response ) {
-					if( response )
-					{
-						var valuesToSet = {};
-						valuesToSet[ currency ] = response.priceUSD;
-						valuesToSet[ currency + '-source' ] = 'http://digitaltangibletrust.com';
-
-						self.values.set( valuesToSet );
-						console.log( valuesToSet );
-					}
-				}, function( error ){} );
-		}
 	}
 }
 
@@ -1063,13 +1043,13 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 				{
 					self.requestor.getJSON( 
 						'DTT:info-' + currency,
-						'http://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
+						'https://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
 						function( response ) {
 							console.log( response );
 							if( response )
 							{
 								var extractedData = {};
-								extractedData[ currency + '-source' ] = 'http://digitaltangibletrust.com/';
+								extractedData[ currency + '-source' ] = 'https://digitaltangibletrust.com/';
 								extractedData[ currency ] = {
 									"name": response.name + ' (' + match2[1] + ')',
 									"description": response.description,
