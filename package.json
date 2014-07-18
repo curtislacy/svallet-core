@@ -1,6 +1,6 @@
 {
   "name": "svallet-core",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Lighweight, consensus-based webwallet",
   "main": "express-endpoints.js",
   "engines": {

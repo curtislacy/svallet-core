@@ -1016,7 +1016,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 						var url = response[0].propertyUrl;
 						if( url )
 						{
-							url = url.toLowerCase().replace(/ +/g,'_').replace(/[0-9]/g,'').replace(/[^a-z0-9-_.]/g,'').trim();
+							url = url.toLowerCase().replace(/ +/g,'_').replace(/[0-9]/g,'').replace(/[^a-z0-9-_.:\/]/g,'').trim();
 							if( !url.match( /^[a-z]+:\/\// ))
 								url = 'http://' + url;
 							extractedData[ currency ].url = url;
