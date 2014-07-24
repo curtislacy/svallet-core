@@ -214,12 +214,12 @@ SingleAddressSvallet.prototype.locateIcon = function( currency, url )
 	{
 		this.requestor.getJSON( 
 			'DTT:icon-' + currency,
-			'https://staging.digitaltangibletrust.com/product/symbol/' + match[1] + '/',
+			'https://digitaltangibletrust.com/product/symbol/' + match[1] + '/',
 			function( response ) {
 				if( response )
 				{
 					var toSet = {};
-					toSet[ currency ] = 'https://staging.digitaltangibletrust.com/media/products/' + response.imagePreview;
+					toSet[ currency ] = 'https://digitaltangibletrust.com/media/products/' + response.imagePreview;
 					self.svalletData.coinIcons.set( toSet );
 				}
 			}, function( error ){} );
@@ -1040,7 +1040,7 @@ CoinDataQueryWorker.prototype.getCoinData = function() {
 				{
 					self.requestor.getJSON( 
 						'DTT:info-' + currency,
-						'https://staging.digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
+						'https://digitaltangibletrust.com/product/symbol/' + match2[1] + '/',
 						function( response ) {
 							if( response )
 							{
